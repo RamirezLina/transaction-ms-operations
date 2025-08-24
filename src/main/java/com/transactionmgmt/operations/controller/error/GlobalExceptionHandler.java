@@ -1,5 +1,6 @@
 package com.transactionmgmt.operations.controller.error;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.transactionmgmt.operations.service.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleBusinessException(BusinessException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("Error", ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
+    }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Map<String, String>> handleInvalidFormatException(InvalidFormatException ex) {
+        Map<String, String> error = new HashMap<>();
+        String fieldName = ex.getPathReference();
+        String targetType = ex.getTargetType().getSimpleName();
+        error.put("Error", String.format("Valor inválido para el campo %s. Se esperaba un valor de tipo %s.", fieldName, targetType));
         return ResponseEntity.badRequest().body(error);
     }
 }
