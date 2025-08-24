@@ -18,22 +18,23 @@ public class AccountRepositoryAdapter implements AccountRepository {
     private final AccountEntityMapper accountEntityMapper;
 
     @Override
-    public void saveAccount(Account account) {
-        accountDataRepository.save(accountEntityMapper.toEntity(account));
+    public Account saveAccount(Account account) {
+        AccountEntity entity = accountDataRepository.save(accountEntityMapper.toEntity(account));
+       return accountEntityMapper.toModel(entity);
     }
 
     @Override
     public Optional<Account> getAccountById(Long id) {
         return accountDataRepository.findById(id)
                 .filter(AccountEntity::isEstado)
-                .map(accountEntityMapper::toDomain);
+                .map(accountEntityMapper::toModel);
     }
 
     @Override
     public List<Account> getAllAccounts() {
         return accountDataRepository.findAll().stream()
                 .filter(AccountEntity::isEstado)
-                .map(accountEntityMapper::toDomain)
+                .map(accountEntityMapper::toModel)
                 .collect(Collectors.toList());
     }
 

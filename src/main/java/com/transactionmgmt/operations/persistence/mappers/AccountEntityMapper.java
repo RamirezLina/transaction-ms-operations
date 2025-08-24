@@ -10,5 +10,5 @@ public interface AccountEntityMapper {
     AccountEntityMapper INSTANCE = Mappers.getMapper(AccountEntityMapper.class);
 
     AccountEntity toEntity(Account account);
-    Account toDomain(AccountEntity entity);
+    Account toModel(AccountEntity entity);
 }

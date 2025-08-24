@@ -10,6 +10,7 @@ import java.util.List;
 public interface AccountService {
     void createAccount(CreateAccountDto dto);
     AccountDto updateAccount(Long id, UpdateAccountDto dto);
+    Account saveAccount(Account account);
     AccountDto getAccountDtoById(Long id);
     Account getAccountById(Long id);
     List<AccountDto> getAllAccounts();

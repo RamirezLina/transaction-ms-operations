@@ -44,6 +44,11 @@ public class AccountServiceImpl implements AccountService {
         return accountDtoMapper.toDto(accountToUpdate);
     }
 
+    @Override
+    public Account saveAccount(Account account) {
+        return accountRepository.saveAccount(account);
+    }
+
     @Transactional(readOnly = true)
     public AccountDto getAccountDtoById(Long id) {
         Account account = accountRepository.getAccountById(id)
