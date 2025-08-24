@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountDataRepository extends JpaRepository<AccountEntity, Long> {
-    boolean existsByNumeroCuenta(String numeroCuenta);
+    boolean existsByNumeroCuenta(long numeroCuenta);
 }
+    

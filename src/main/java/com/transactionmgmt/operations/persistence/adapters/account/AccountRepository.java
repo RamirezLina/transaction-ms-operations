@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccountRepository {
-    Account saveAccount(Account account);
+    void saveAccount(Account account);
     Optional<Account> getAccountById(Long id);
     List<Account> getAllAccounts();
-    void deleteAccount(Long id);
-    boolean existsByNumeroCuenta(String numeroCuenta);
+    boolean existsByNumeroCuenta(long numeroCuenta);
 }

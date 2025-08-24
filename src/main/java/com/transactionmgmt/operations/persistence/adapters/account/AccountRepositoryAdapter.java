@@ -18,10 +18,8 @@ public class AccountRepositoryAdapter implements AccountRepository {
     private final AccountEntityMapper accountEntityMapper;
 
     @Override
-    public Account saveAccount(Account account) {
-        AccountEntity entity = accountEntityMapper.toEntity(account);
-        AccountEntity saved = accountDataRepository.save(entity);
-        return accountEntityMapper.toDomain(saved);
+    public void saveAccount(Account account) {
+        accountDataRepository.save(accountEntityMapper.toEntity(account));
     }
 
     @Override
@@ -37,13 +35,9 @@ public class AccountRepositoryAdapter implements AccountRepository {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void deleteAccount(Long id) {
-        accountDataRepository.deleteById(id);
-    }
 
     @Override
-    public boolean existsByNumeroCuenta(String numeroCuenta) {
+    public boolean existsByNumeroCuenta(long numeroCuenta) {
         return accountDataRepository.existsByNumeroCuenta(numeroCuenta);
     }
 }

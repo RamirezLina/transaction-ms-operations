@@ -1,18 +1,33 @@
 package com.transactionmgmt.operations.domain.account;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import java.security.SecureRandom;
 
-@Data
-@Builder
-@NoArgsConstructor
+@Getter
+@Builder(toBuilder = true)
 @AllArgsConstructor
 public class Account {
     private Long id;
-    private String numeroCuenta;
+    private long numeroCuenta;
     private String tipoCuenta;
     private Double saldoInicial;
-    private String estado;
+    private boolean estado;
+    private Long clienteId;
+
+    public Account() {
+        this.estado = true;
+        this.numeroCuenta = generateNumberAccount();
+    }
+
+    private long generateNumberAccount() {
+        SecureRandom random = new SecureRandom();
+        int numero = 100000 + random.nextInt(900000);
+        return Long.parseLong(String.valueOf(numero));
+    }
+    
+    public void softDelete(){
+        this.estado = false;
+    }
+
+
 }

@@ -13,9 +13,8 @@ public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "numero_cuenta", nullable = false, unique = true)
-    private String numeroCuenta;
+    private long numeroCuenta;
 
     @Column(name = "tipo_cuenta", nullable = false)
     private String tipoCuenta;
@@ -26,5 +25,8 @@ public class AccountEntity {
     @Column(name = "estado", nullable = false)
     private String estado;
 
-    // Relación con cliente eliminada según lineamientos
+    @Column(name = "client_id", nullable = false)
+    private Long clienteId;
+
+    
 }
