@@ -2,8 +2,6 @@ package com.transactionmgmt.operations.service.dto.mappers;
 
 import com.transactionmgmt.operations.domain.movement.Movement;
 import com.transactionmgmt.operations.service.dto.movement.MovementDto;
-import com.transactionmgmt.operations.service.dto.movement.CreateMovementDto;
-import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component
