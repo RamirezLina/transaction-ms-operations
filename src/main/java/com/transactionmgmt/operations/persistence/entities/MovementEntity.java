@@ -2,7 +2,8 @@ package com.transactionmgmt.operations.persistence.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "movimiento")
@@ -16,7 +17,7 @@ public class MovementEntity {
     private Long id;
 
     @Column(name = "fecha", nullable = false)
-    private LocalDateTime fecha;
+    private LocalDate fecha;
 
     @Column(name = "tipo_movimiento", nullable = false)
     private String tipoMovimiento;

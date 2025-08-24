@@ -1,20 +1,20 @@
 package com.transactionmgmt.operations.domain.movement;
 
 import com.transactionmgmt.operations.domain.account.Account;
-import com.transactionmgmt.operations.persistence.entities.AccountEntity;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 public class Movement {
     private Long id;
-    private LocalDateTime fecha;
-    private String tipoMovimiento;
+    private LocalDate fecha;
+    private MovementType tipoMovimiento;
     private Double valor;
     private Double saldoInicial;
+    private Double saldoFinal;
     private boolean estado;
     private boolean activo;
     private Account cuenta;

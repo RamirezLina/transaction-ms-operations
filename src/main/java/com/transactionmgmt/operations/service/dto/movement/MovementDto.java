@@ -1,13 +1,15 @@
 package com.transactionmgmt.operations.service.dto.movement;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record MovementDto(
-    long numeroCuenta,
-    LocalDateTime fecha,
-    String tipoMovimiento,
-    Double valor,
-    Double saldoInicial,
-    Double saldoFinal,
-    boolean estado
-) {}
+        Long id,
+        long numeroCuenta,
+        LocalDate fecha,
+        String tipoMovimiento,
+        Double valor,
+        Double saldoInicial,
+        Double saldoFinal,
+        boolean estado
+) {
+}
