@@ -1,10 +1,12 @@
 package com.transactionmgmt.operations.controller;
 
-import com.transactionmgmt.operations.dto.account.AccountDto;
-import com.transactionmgmt.operations.dto.account.CreateAccountDto;
-import com.transactionmgmt.operations.dto.account.UpdateAccountDto;
+import com.transactionmgmt.operations.service.dto.account.AccountDto;
+import com.transactionmgmt.operations.service.dto.account.CreateAccountDto;
+import com.transactionmgmt.operations.service.dto.account.UpdateAccountDto;
 import com.transactionmgmt.operations.service.account.AccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +16,17 @@ import java.util.List;
 @RequestMapping("/cuentas")
 @RequiredArgsConstructor
 public class AccountController {
+    
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestBody CreateAccountDto dto) {
-        return ResponseEntity.ok(accountService.createAccount(dto));
+    public ResponseEntity<Void> createAccount(@Valid @RequestBody CreateAccountDto dto) {
+        accountService.createAccount(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody UpdateAccountDto dto) {
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @Valid @RequestBody UpdateAccountDto dto) {
         return ResponseEntity.ok(accountService.updateAccount(id, dto));
     }
 
