@@ -23,7 +23,7 @@ public class AccountEntity {
     private Double saldoInicial;
 
     @Column(name = "estado", nullable = false)
-    private String estado;
+    private boolean estado;
 
     @Column(name = "client_id", nullable = false)
     private Long clienteId;

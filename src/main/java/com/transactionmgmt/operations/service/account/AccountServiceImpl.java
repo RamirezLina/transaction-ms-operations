@@ -26,7 +26,9 @@ public class AccountServiceImpl implements AccountService {
         if (accountRepository.existsByNumeroCuenta(dto.numeroCuenta())) {
             throw BusinessException.Type.ACCOUNT_ALREADY_EXISTS.build();
         }
-        accountRepository.saveAccount( accountDtoMapper.toModel(dto));
+        Account account = accountDtoMapper.toModel(dto);
+        account.setDefaultValues();
+        accountRepository.saveAccount(account);
     }
 
     @Override
@@ -42,12 +44,19 @@ public class AccountServiceImpl implements AccountService {
         return accountDtoMapper.toDto(accountToUpdate);
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public AccountDto getAccountById(Long id) {
+    public AccountDto getAccountDtoById(Long id) {
         Account account = accountRepository.getAccountById(id)
                 .orElseThrow(BusinessException.Type.ACCOUNT_NOT_EXISTS::build);
         return accountDtoMapper.toDto(account);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Account getAccountById(Long id) {
+        return accountRepository.getAccountById(id)
+                .orElseThrow(BusinessException.Type.ACCOUNT_NOT_EXISTS::build);
+        
     }
 
     @Override

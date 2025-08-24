@@ -25,12 +25,14 @@ public class AccountRepositoryAdapter implements AccountRepository {
     @Override
     public Optional<Account> getAccountById(Long id) {
         return accountDataRepository.findById(id)
+                .filter(AccountEntity::isEstado)
                 .map(accountEntityMapper::toDomain);
     }
 
     @Override
     public List<Account> getAllAccounts() {
         return accountDataRepository.findAll().stream()
+                .filter(AccountEntity::isEstado)
                 .map(accountEntityMapper::toDomain)
                 .collect(Collectors.toList());
     }
