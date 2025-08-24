@@ -1,4 +1,3 @@
-    // Relación con cuenta se mantiene
 package com.transactionmgmt.operations.persistence.entities;
 
 import jakarta.persistence.*;
@@ -25,10 +24,20 @@ public class MovementEntity {
     @Column(name = "valor", nullable = false)
     private Double valor;
 
-    @Column(name = "saldo", nullable = false)
-    private Double saldo;
+    @Column(name = "saldo_inicial", nullable = false)
+    private Double saldoInicial;
+
+    @Column(name = "saldo_final", nullable = false)
+    private Double saldoFinal;
+
+    @Column(name = "estado", nullable = false)
+    private boolean estado;
+    
+    @Column(name = "activo", nullable = false)
+    private boolean activo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cuenta_id", nullable = false)
     private AccountEntity cuenta;
+    
 }

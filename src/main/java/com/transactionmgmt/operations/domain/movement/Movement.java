@@ -1,19 +1,32 @@
 package com.transactionmgmt.operations.domain.movement;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.transactionmgmt.operations.domain.account.Account;
+import com.transactionmgmt.operations.persistence.entities.AccountEntity;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
-@Data
-@Builder
-@NoArgsConstructor
+@Getter
+@Builder(toBuilder = true)
 @AllArgsConstructor
 public class Movement {
     private Long id;
     private LocalDateTime fecha;
     private String tipoMovimiento;
     private Double valor;
-    private Double saldo;
+    private Double saldoInicial;
+    private boolean estado;
+    private boolean activo;
+    private Account cuenta;
+
+     public void setDefaultValues() {
+        this.estado = true;
+        this.activo = true;
+    }
+
+
+
+    public void softDelete(){
+        this.activo = false;
+    }
 }

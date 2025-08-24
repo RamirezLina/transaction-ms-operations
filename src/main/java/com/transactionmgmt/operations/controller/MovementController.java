@@ -1,10 +1,12 @@
 package com.transactionmgmt.operations.controller;
 
-import com.transactionmgmt.operations.dto.movement.MovementDto;
-import com.transactionmgmt.operations.dto.movement.CreateMovementDto;
-import com.transactionmgmt.operations.dto.movement.UpdateMovementDto;
+import com.transactionmgmt.operations.service.dto.movement.MovementDto;
+import com.transactionmgmt.operations.service.dto.movement.CreateMovementDto;
+import com.transactionmgmt.operations.service.dto.movement.UpdateMovementDto;
 import com.transactionmgmt.operations.service.movement.MovementService;
+import com.transactionmgmt.operations.service.movement.RegisterMovementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovementController {
     private final MovementService movementService;
+    private final RegisterMovementService registerMovementService;
 
-    @PostMapping
-    public ResponseEntity<MovementDto> createMovement(@RequestBody CreateMovementDto dto) {
-        return ResponseEntity.ok(movementService.createMovement(dto));
+    @PostMapping()
+    public ResponseEntity<Void> registerMovement(@RequestBody CreateMovementDto dto) {
+        registerMovementService.registerMovement(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")

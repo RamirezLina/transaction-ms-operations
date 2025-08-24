@@ -9,5 +9,4 @@ public interface MovementRepository {
     Movement saveMovement(Movement movement);
     Optional<Movement> getMovementById(Long id);
     List<Movement> getAllMovements();
-    void deleteMovement(Long id);
 }

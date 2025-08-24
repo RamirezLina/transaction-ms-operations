@@ -27,18 +27,16 @@ public class MovementRepositoryAdapter implements MovementRepository {
     @Override
     public Optional<Movement> getMovementById(Long id) {
         return movementDataRepository.findById(id)
+                .filter(MovementEntity::isActivo)
                 .map(movementEntityMapper::toDomain);
     }
 
     @Override
     public List<Movement> getAllMovements() {
         return movementDataRepository.findAll().stream()
+                .filter(MovementEntity::isActivo)
                 .map(movementEntityMapper::toDomain)
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public void deleteMovement(Long id) {
-        movementDataRepository.deleteById(id);
-    }
+    
 }
