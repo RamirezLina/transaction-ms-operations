@@ -7,17 +7,14 @@ import com.transactionmgmt.operations.service.account.AccountService;
 import com.transactionmgmt.operations.service.dto.mappers.MovementDtoMapper;
 import com.transactionmgmt.operations.service.dto.movement.CreateMovementDto;
 import com.transactionmgmt.operations.service.dto.movement.MovementDto;
-import com.transactionmgmt.operations.service.dto.movement.UpdateMovementDto;
 import com.transactionmgmt.operations.service.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +28,44 @@ public class RegisterMovementServiceImpl implements RegisterMovementService {
     public MovementDto registerMovement(CreateMovementDto dto) {
 
         Account relatedAccount = accountService.getAccountById(dto.cuentaId());
+        double initialAccountBalance = relatedAccount.getSaldoInicial();
+        double newAccountBalance = validateAccountFunds(dto, initialAccountBalance);
+
+        Account accountUpdated = updateBalanceAccount(relatedAccount, newAccountBalance);
         
         Movement movement = Movement.builder()
-                
+                .fecha(nowInUTCMinus5())
+                .tipoMovimiento(dto.tipoMovimiento())
+                .valor(dto.valor())
+                .saldoInicial(initialAccountBalance)
+                .saldoFinal(newAccountBalance)
+                .cuenta(accountUpdated)
                 .build();
+        movement.setDefaultValues();
         Movement saved = movementRepository.saveMovement(movement);
-        return movementDtoMapper.toDto(saved);
+        return movementDtoMapper.toDto(saved, saved.getCuenta().getNumeroCuenta());
     }
-    
+
+    private Account updateBalanceAccount(Account relatedAccount, double newAccountBalance) {
+        Account accountUpdated = relatedAccount.toBuilder()
+                .saldoInicial(newAccountBalance)
+                .build();
+        accountUpdated = accountService.saveAccount(accountUpdated);
+        return accountUpdated;
+    }
+
+    private double validateAccountFunds(CreateMovementDto dto, double initialAccountBalance) {
+        double newAccountBalance = initialAccountBalance + dto.valor();
+
+        if(newAccountBalance < 0){
+            throw BusinessException.Type.NOT_ENOUGH_FUNDS.build();
+        }
+        return newAccountBalance;
+    }
+
+    private LocalDate nowInUTCMinus5() {
+        return ZonedDateTime.now(ZoneId.of("America/Bogota")).toLocalDate();
+    }
+
 }
+

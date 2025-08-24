@@ -20,10 +20,11 @@ public class MovementController {
     private final RegisterMovementService registerMovementService;
 
     @PostMapping()
-    public ResponseEntity<Void> registerMovement(@RequestBody CreateMovementDto dto) {
-        registerMovementService.registerMovement(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<MovementDto> registerMovement(@RequestBody CreateMovementDto dto) {
+        MovementDto movement = registerMovementService.registerMovement(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(movement);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<MovementDto> updateMovement(@PathVariable Long id, @RequestBody UpdateMovementDto dto) {
