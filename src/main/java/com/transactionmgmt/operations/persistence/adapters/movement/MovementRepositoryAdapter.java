@@ -7,6 +7,7 @@ import com.transactionmgmt.operations.persistence.repositories.MovementDataRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,21 +22,29 @@ public class MovementRepositoryAdapter implements MovementRepository {
     public Movement saveMovement(Movement movement) {
         MovementEntity entity = movementEntityMapper.toEntity(movement);
         MovementEntity saved = movementDataRepository.save(entity);
-        return movementEntityMapper.toDomain(saved);
+        return movementEntityMapper.toModel(saved);
     }
 
     @Override
     public Optional<Movement> getMovementById(Long id) {
         return movementDataRepository.findById(id)
                 .filter(MovementEntity::isActivo)
-                .map(movementEntityMapper::toDomain);
+                .map(movementEntityMapper::toModel);
     }
 
     @Override
     public List<Movement> getAllMovements() {
         return movementDataRepository.findAll().stream()
                 .filter(MovementEntity::isActivo)
-                .map(movementEntityMapper::toDomain)
+                .map(movementEntityMapper::toModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Movement> getMovementsByClient(Long clienteId, LocalDate startDate, LocalDate endDate) {
+        return movementDataRepository.findAllByCuentaClienteIdAndFechaBetween(clienteId, startDate, endDate).stream()
+                .filter(MovementEntity::isActivo)
+                .map(movementEntityMapper::toModel)
                 .collect(Collectors.toList());
     }
     
