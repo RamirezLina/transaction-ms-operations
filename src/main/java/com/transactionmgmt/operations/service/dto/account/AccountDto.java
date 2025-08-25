@@ -6,6 +6,7 @@ public record AccountDto(
     Long id,
     long numeroCuenta,
     AccountType tipoCuenta,
+    long clienteId,
     Double saldoInicial,
     boolean estado
 ) {}
