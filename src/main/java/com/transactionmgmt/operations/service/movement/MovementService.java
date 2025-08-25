@@ -1,9 +1,10 @@
 package com.transactionmgmt.operations.service.movement;
 
+import com.transactionmgmt.operations.domain.movement.Movement;
 import com.transactionmgmt.operations.service.dto.movement.MovementDto;
-import com.transactionmgmt.operations.service.dto.movement.CreateMovementDto;
 import com.transactionmgmt.operations.service.dto.movement.UpdateMovementDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface MovementService {
@@ -11,4 +12,5 @@ public interface MovementService {
     MovementDto getMovementById(Long id);
     List<MovementDto> getAllMovements();
     void deleteMovement(Long id);
+    List<Movement> getMovementsByClientId(Long clientId, LocalDate startDate, LocalDate endDate);
 }
