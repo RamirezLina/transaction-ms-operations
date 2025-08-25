@@ -1,0 +1,14 @@
+services:
+  rabbitmq:
+    image: docker.io/library/rabbitmq:3-management
+    container_name: rabbitmq-broker
+    ports:
+      - "5672:5672" 
+      - "15672:15672" 
+    networks:
+      - internal-net
+    expose:
+      - "5672"
+networks:
+  internal-net:
+    external: true

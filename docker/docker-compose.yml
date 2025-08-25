@@ -1,0 +1,24 @@
+services:
+  ms-operations:
+    build: .
+    container_name: ms-operations
+    ports:
+      - "8081:8081"
+    networks:
+      - internal-net
+    expose:
+      - "8081"
+    environment:
+      - CLIENT_USERS_URL=http://ms-users:8080/clientes
+      - MYSQL_CONNECTION_STRING=jdbc:mysql://mysql:3306
+      - MYSQL_DATABASE=ms-operations
+      - MYSQL_PASSWORD=rootpassword
+      - MYSQL_USER=root
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+
+networks:
+  internal-net:
+    external: true
