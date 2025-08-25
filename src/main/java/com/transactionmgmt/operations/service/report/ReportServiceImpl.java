@@ -2,6 +2,8 @@ package com.transactionmgmt.operations.service.report;
 
 import com.transactionmgmt.operations.domain.account.Account;
 import com.transactionmgmt.operations.domain.movement.Movement;
+import com.transactionmgmt.operations.integration.restclient.users.ClientDto;
+import com.transactionmgmt.operations.integration.restclient.users.RestClientUsers;
 import com.transactionmgmt.operations.service.dto.mappers.ReportDtoMapper;
 import com.transactionmgmt.operations.service.dto.report.AccountReportDto;
 import com.transactionmgmt.operations.service.dto.report.MovementReportDto;
@@ -17,13 +19,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
     private final MovementService movementService;
+    private final RestClientUsers restClientUsers;
     private final ReportDtoMapper reportDtoMapper;
 
 
     @Override
     public List<AccountReportDto> getReportByClient(Long clientId, LocalDate startDate, LocalDate endDate) {
         List<Movement> movementsToReport = movementService.getMovementsByClientId(clientId, startDate, endDate);
-        String clientName = "DESCONOCIDO";
+        String clientName = getClientName(clientId);
         return movementsToReport.stream()
                 .collect(Collectors.groupingBy(movement -> movement.getCuenta().getId()))
                 .values().stream()
@@ -41,5 +44,10 @@ public class ReportServiceImpl implements ReportService {
                     return reportDtoMapper.toDto(account, movementReporList, clientName);
                 })
                 .collect(Collectors.toList());
+    }
+    
+    private String getClientName(Long clientId) {
+        ClientDto clientDto = restClientUsers.getClientById(clientId);
+        return clientDto.name();
     }
 }
